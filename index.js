@@ -2,7 +2,7 @@ const express= require('express');
 const app=express();
 const cors=require('cors');
 require('dotenv').config();
-const ObjectId = require('mongodb').ObjectId
+const ObjectId = require('mongodb').ObjectId;
 
 const port=process.env.PORT || 5000;
 
@@ -28,11 +28,50 @@ async function run() {
 
       //get all products
       app.get('/products',async(req,res)=>{
+
+
+        const category=req.query.category;
+        
+        
+      
+
+        const page=req.query.page;
+        const size=parseInt(req.query.size);
         const cursor=productCollection.find({});
-        const result=await cursor.toArray();
-        res.send(result);
+        const count=await cursor.count();
+     
+        let products;
+
+        if(category){
+
+           const query= {category:category};
+           const cursor=productCollection.find(query);
+           products= await cursor.toArray();
+         }
+        
+        
+        else if(page){
+          products=await cursor.skip(page*size).limit(size).toArray();
+        }
+        
+        else{
+          products=await cursor.toArray();
+        }
+        
+        res.send({
+          count,products
+        });
 
       });
+
+      // app.get('/products/:camera',async(req,res)=>{
+      //   const cameras=req.query.camera;
+      //   const query= {camera:cameras};
+      //   const cursor=productCollection.find(query);
+      //   const result=await cursor.toArray();
+      //   res.send(result);
+
+      // })
 
       //get selected product
       app.get('/products/:id',async(req,res)=>{

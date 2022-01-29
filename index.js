@@ -23,6 +23,7 @@ async function run() {
       await client.connect();
       const database = client.db("e-shop");
       const productCollection = database.collection("products");
+      const flashsellCollection=database.collection("flashsell");
 
       console.log('connect to db');
 
@@ -32,8 +33,6 @@ async function run() {
 
         const category=req.query.category;
         
-        
-      
 
         const page=req.query.page;
         const size=parseInt(req.query.size);
@@ -64,15 +63,6 @@ async function run() {
 
       });
 
-      // app.get('/products/:camera',async(req,res)=>{
-      //   const cameras=req.query.camera;
-      //   const query= {camera:cameras};
-      //   const cursor=productCollection.find(query);
-      //   const result=await cursor.toArray();
-      //   res.send(result);
-
-      // })
-
       //get selected product
       app.get('/products/:id',async(req,res)=>{
         const id=req.params.id;
@@ -82,7 +72,14 @@ async function run() {
 
       });
 
-      //get search product
+      //get flshsell product
+
+      app.get('/flashsell',async(req,res)=>{
+        const cursor=flashsellCollection.find({});
+        const result=await cursor.toArray();
+        res.send(result);
+
+      });
 
 
       console.log("Connected successfully to server");

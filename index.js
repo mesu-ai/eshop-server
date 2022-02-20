@@ -81,6 +81,17 @@ async function run() {
 
       });
 
+      //get selected product
+
+      app.get('/flashsell/:id',async(req,res)=>{
+        const id=req.params.id;
+        const query={_id:ObjectId(id)};
+        const result=await flashsellCollection.findOne(query);
+        res.send(result);
+
+
+      })
+
 
       console.log("Connected successfully to server");
 

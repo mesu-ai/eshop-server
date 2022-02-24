@@ -37,7 +37,7 @@ async function run() {
         const page=req.query.page;
         const size=parseInt(req.query.size);
         const cursor=productCollection.find({});
-        const count=await cursor.count();
+        let count;
      
         let products;
 
@@ -46,20 +46,24 @@ async function run() {
            const query= {category:category};
            const cursor=productCollection.find(query);
            products= await cursor.toArray();
+           res.send(products);
          }
         
         
         else if(page){
+          count=await cursor.count();
           products=await cursor.skip(page*size).limit(size).toArray();
+          res.send({count,products});
         }
         
         else{
           products=await cursor.toArray();
+          res.send(products);
         }
         
-        res.send({
-          count,products
-        });
+        // res.send({
+        //   count,products
+        // });
 
       });
 

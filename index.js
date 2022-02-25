@@ -32,6 +32,7 @@ async function run() {
 
 
         const category=req.query.category;
+        const name=req.query.name;
         
 
         const page=req.query.page;
@@ -41,7 +42,15 @@ async function run() {
      
         let products;
 
-        if(category){
+        if(name){
+          const query={name:name};
+          const cursor=productCollection.find(query);
+          products=await cursor.toArray();
+          res.send(products);
+
+        }
+
+        else if(category){
 
            const query= {category:category};
            const cursor=productCollection.find(query);

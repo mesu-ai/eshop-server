@@ -24,6 +24,7 @@ async function run() {
       const database = client.db("e-shop");
       const productCollection = database.collection("products");
       const flashsellCollection=database.collection("flashsell");
+      const orderCollection=database.collection("orders");
 
       console.log('connect to db');
 
@@ -102,8 +103,24 @@ async function run() {
         const result=await flashsellCollection.findOne(query);
         res.send(result);
 
+      });
 
-      })
+      app.get('/orders',async(req,res)=>{
+        const cursor=orderCollection.find({});
+        const result= await cursor.toArray();
+        res.send(result);
+
+      });
+
+
+      app.post('/orders',async(req,res)=>{
+        const orderPlace=req.body;
+        const result=await orderCollection.insertOne(orderPlace);
+        res.json(result);
+
+
+
+      });
 
 
       console.log("Connected successfully to server");

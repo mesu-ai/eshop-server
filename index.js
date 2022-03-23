@@ -106,7 +106,7 @@ async function run() {
       });
 
       app.get('/orders',async(req,res)=>{
-        const email=req.body.email;
+        const email=req.query.email;
         let cursor;
 
         if(email){

@@ -3,12 +3,14 @@ const app=express();
 const cors=require('cors');
 require('dotenv').config();
 const ObjectId = require('mongodb').ObjectId;
+const fileUpload=require('express-fileupload');
 
 const port=process.env.PORT || 5000;
 
 // middleware
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
 
 
 const { MongoClient } = require('mongodb');
@@ -85,6 +87,41 @@ async function run() {
         res.send(result);
 
       });
+
+      app.post('/products',async(req,res)=>{
+        const cursor=req.body;
+        const result=await productCollection.insertOne(cursor);
+        res.json(result);
+
+      });
+
+      // app.post('/products',async(req,res)=>{
+      //   const name=req.body.name;
+      //   const seller=req.body.seller;
+      //   const price=req.body.price;
+      //   const shipping=req.body.shipping;
+      //   const category=req.body.category;
+      //   const stock=req.body.stock;
+      //   const star=req.body.star;
+      //   const starCount=req.body.starCount;
+      //   const features=req.body.features;
+       
+      //   // console.log('body',req.body);
+      //   // console.log('files',req.files);
+      //   const pic=req.files.image;
+      //   const picData=pic.data;
+      //   const encodedPic= picData.toString('base64');
+      //   const imageBuffer=Buffer.from(encodedPic,'base64');
+      //   const productInfo={
+      //     name,seller,price,shipping,category,stock,star,starCount,features,image:imageBuffer
+      //   }
+
+      //   const result=await productCollection.insertOne(productInfo);
+      //   console.log(productInfo);
+
+      //   res.json({success:true});
+
+      // });
 
       //get flshsell product
 

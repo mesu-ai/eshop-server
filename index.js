@@ -94,6 +94,13 @@ async function run() {
 
       });
 
+      app.delete('/products/:id',async(req,res)=>{
+        const id=req.params.id;
+        const query={_id:ObjectId(id)};
+        const result=await productCollection.deleteOne(query);
+        res.json(result);
+      })
+
       // app.post('/products',async(req,res)=>{
       //   const name=req.body.name;
       //   const seller=req.body.seller;

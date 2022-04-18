@@ -26,6 +26,7 @@ async function run() {
       const productCollection = database.collection("products");
       const flashsellCollection=database.collection("flashsell");
       const orderCollection=database.collection("orders");
+      const userCollection=database.collection("users");
 
       console.log('connect to db');
 
@@ -185,7 +186,65 @@ async function run() {
         const query={_id:ObjectId(id)};
         const result=await orderCollection.deleteOne(query);
         res.send(result);
-      })
+      });
+
+
+      // find user
+
+      app.get('/users',async(req,res)=>{
+        const cursor=userCollection.find({});
+        const result=await cursor.toArray();
+        res.send(result);
+
+      });
+
+      // post new user
+      app.post('/users',async(req,res)=>{
+        const user=req.body;
+        const result=await userCollection.insertOne(user);
+        res.json(result);
+        // console.log(user);
+      });
+
+      // update user
+      app.put('/users',async(req,res)=>{
+        const user=req.body;
+        const filter={eamil:user.email};
+        const options={upsert:true};
+        const updateDoc={$set:user};
+
+        const result=await userCollection.updateOne(filter,updateDoc,options);
+        res.json(result);
+
+
+      });
+
+      // make user admin
+
+      app.put('/users/admin',(req,res)=>{
+        const user=req.body;
+        const filter={email:user.email};
+        const updateDoc={$set:{role:"admin"}};
+        const result=await userCollection.updateOne(filter,updateDoc);
+        res.json(result);
+
+      });
+
+      // check user admin
+
+      app.get('users/:email',(req,res)=>{
+        const email=req.params.email;
+        const query={email:email};
+
+        const result=await userCollection.findOne(query);
+
+        let isAdmin=false;
+        if(result?.role === 'admin'){
+          isAdmin=true;
+        }
+        res.send({admin:isAdmin});
+
+      });
 
 
       console.log("Connected successfully to server");

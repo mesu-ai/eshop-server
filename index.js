@@ -33,7 +33,6 @@ async function run() {
       //get all products
       app.get('/products',async(req,res)=>{
 
-
         const category=req.query.category;
         const name=req.query.name;
         

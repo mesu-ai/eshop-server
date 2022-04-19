@@ -210,28 +210,28 @@ async function run() {
       });
 
       // update user
-      app.put('/users',async(req,res)=>{
-        const user=req.body;
-        const filter={eamil:user.email};
-        const options={upsert:true};
-        const updateDoc={$set:user};
+      // app.put('/users',async(req,res)=>{
+      //   const user=req.body;
+      //   const filter={eamil:user.email};
+      //   const options={upsert:true};
+      //   const updateDoc={$set:user};
 
-        const result=await userCollection.updateOne(filter,updateDoc,options);
-        res.json(result);
+      //   const result=await userCollection.updateOne(filter,updateDoc,options);
+      //   res.json(result);
 
 
-      });
+      // });
 
       // make user admin
 
-      app.put('/users/admin',(req,res)=>{
-        const user=req.body;
-        const filter={email:user.email};
-        const updateDoc={$set:{role:"admin"}};
-        const result=await userCollection.updateOne(filter,updateDoc);
-        res.json(result);
+      // app.put('/users/admin',(req,res)=>{
+      //   const user=req.body;
+      //   const filter={email:user.email};
+      //   const updateDoc={$set:{role:"admin"}};
+      //   const result=await userCollection.updateOne(filter,updateDoc);
+      //   res.json(result);
 
-      });
+      // });
 
       // check user admin
 

@@ -134,7 +134,6 @@ async function run() {
       //get flshsell product
 
       app.get('/flashsell',async(req,res)=>{
-        // const cursor=flashsellCollection.find({});
         const result=await flashsellCollection.find({}).toArray();
         res.send(result);
 
@@ -193,6 +192,7 @@ async function run() {
       // post user
       app.post('/users',async(req,res)=>{
         const user=req.body;
+        console.log(user);
         const result=await usersCollection.insertOne(user);
         res.json(result);
 
@@ -200,8 +200,7 @@ async function run() {
 
     // users find
       app.get('/users',async(req,res)=>{
-        const cursor= usersCollection.findOne({});
-        const result=await cursor.toArray();
+        const result=await usersCollection.find({}).toArray();
         res.json(result);
 
     });

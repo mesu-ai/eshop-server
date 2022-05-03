@@ -219,7 +219,27 @@ async function run() {
            const findUser=await usersCollection.findOne(query);
            if(findUser){
               const validPassword=await bcrypt.compare(req.query.password,findUser.password);
-              console.log(findUser,validPassword);
+              if(validPassword){
+                const token= jwt.sign({ 
+                  email:findUser.email,
+                  displayName:findUser.displayName,
+                  userId:findUser._id
+
+                }, process.env.JWT_SECRET,{
+                  expiresIn: '1h'
+                })
+                // console.log(token);
+                res.status(200).json({
+                  'user':findUser,
+                  'access_token': token,
+                  'message':'login successfully!'
+                })
+                
+
+              }
+              
+
+
 
            }
            

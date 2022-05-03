@@ -1,6 +1,7 @@
 const express= require('express');
 const app=express();
 const cors=require('cors');
+const bcrypt=require('bcrypt');
 require('dotenv').config();
 const ObjectId = require('mongodb').ObjectId;
 
@@ -191,17 +192,30 @@ async function run() {
 
       // post user
       app.post('/users',async(req,res)=>{
+        const hashPassword=await  bcrypt.hash(req.body.password, 10);
         const user=req.body;
-        console.log(user);
-        const result=await usersCollection.insertOne(user);
+        const newUser=({
+          displayName:req.body.displayName,
+          email:req.body.email,
+          password:hashPassword,
+        });
+
+        console.log(newUser);
+        const result=await usersCollection.insertOne(newUser);
         res.json(result);
 
     });
 
     // users find
       app.get('/users',async(req,res)=>{
+        const email=req.body.email;
+        
+
+
+      
         const result=await usersCollection.find({}).toArray();
         res.json(result);
+
 
     });
 

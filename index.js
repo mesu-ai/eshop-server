@@ -46,8 +46,8 @@ async function run() {
 
         if(name){
           const query={name:name};
-          const cursor=productCollection.find(query);
-          products=await cursor.toArray();
+          // const cursor=productCollection.find(query);
+          products=await productCollection.find(query).toArray();
           res.send(products);
 
         }
@@ -134,8 +134,8 @@ async function run() {
       //get flshsell product
 
       app.get('/flashsell',async(req,res)=>{
-        const cursor=flashsellCollection.find({});
-        const result=await cursor.toArray();
+        // const cursor=flashsellCollection.find({});
+        const result=await flashsellCollection.find({}).toArray();
         res.send(result);
 
       });

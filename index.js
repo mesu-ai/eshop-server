@@ -2,6 +2,7 @@ const express= require('express');
 const app=express();
 const cors=require('cors');
 const bcrypt=require('bcrypt');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const ObjectId = require('mongodb').ObjectId;
 
@@ -208,14 +209,28 @@ async function run() {
 
     // users find
       app.get('/users',async(req,res)=>{
-        const email=req.body.email;
+        const email=req.query.email;
+        const password=req.query.password;
+        // console.log(email,password);
+
+        if(email){
+          const query={email:email};
+          // console.log(query);
+           const findUser=await usersCollection.findOne(query);
+           if(findUser){
+              const validPassword=await bcrypt.compare(req.query.password,findUser.password);
+              console.log(findUser,validPassword);
+
+           }
+           
+
+        }else{
+          const result=await usersCollection.find({}).toArray();
+          res.json(result);
+
+        }
         
-
-
-      
-        const result=await usersCollection.find({}).toArray();
-        res.json(result);
-
+    
 
     });
 

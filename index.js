@@ -27,6 +27,7 @@ async function run() {
       const database = client.db("e-shop");
       const productCollection = database.collection("products");
       const flashsellCollection=database.collection("flashsell");
+      const flashsellTime=database.collection("flashsellTime");
       const orderCollection=database.collection("orders");
       const usersCollection=database.collection("users");
 
@@ -133,6 +134,7 @@ async function run() {
 
       // });
 
+      
       //get flshsell product
 
       app.get('/flashsell',async(req,res)=>{
@@ -150,6 +152,22 @@ async function run() {
         res.send(result);
 
       });
+
+      app.post('/flashsellTime',async(req,res)=>{
+        const sellTime=req.body;
+        const result=await flashsellTime.insertOne(sellTime);
+        console.log(result);
+        res.json(result);
+      })
+
+      app.get('/flashsellTime',async(req,res)=>{
+        const result=await flashsellTime.find({}).toArray();
+        res.json(result);
+      })
+      app.delete('/flashsellTime',async(req,res)=>{
+        const result=await flashsellTime.deleteMany({});
+        res.json(result);
+      })
 
       app.get('/orders',async(req,res)=>{
         const email=req.query.email;

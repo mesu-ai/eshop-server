@@ -31,6 +31,7 @@ async function run() {
       const orderCollection=database.collection("orders");
       const usersCollection=database.collection("users");
       const categoryCollection=database.collection("category");
+      const bannerCollection=database.collection("banner");
 
       console.log('connect to db');
 
@@ -338,6 +339,36 @@ async function run() {
       const id=req.params.id;
       const query={_id:ObjectId(id)};
       const result=await categoryCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // get banner
+    app.get('/banner',async(req,res)=>{
+      const result=await bannerCollection.find({}).toArray();
+      res.send(result);
+    });
+
+    // get selected banner
+    app.get('/banner/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query={_id:ObjectId(id)};
+      const result=await bannerCollection.findOne(query);
+      res.send(result);
+    });
+
+    // post banner
+    app.post('/banner',async(req,res)=>{
+      const banner=req.body;
+      const result=await bannerCollection.insertOne(banner);
+      res.json(result);
+
+    });
+    
+    // delete banner
+    app.delete('/banner/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query={_id:ObjectId(id)};
+      const result=await bannerCollection.deleteOne(query);
       res.send(result);
     });
 

@@ -30,6 +30,7 @@ async function run() {
       const flashsellTime=database.collection("flashsellTime");
       const orderCollection=database.collection("orders");
       const usersCollection=database.collection("users");
+      const categoryCollection=database.collection("category");
 
       console.log('connect to db');
 
@@ -255,8 +256,6 @@ async function run() {
                 
 
               }
-              
-
 
 
            }
@@ -309,7 +308,38 @@ async function run() {
             isAdmin=true;
         }
         res.send({admin: isAdmin});
-    })
+    });
+
+
+    // get category
+    app.get('/category',async(req,res)=>{
+      const result=await categoryCollection.find({}).toArray();
+      res.send(result);
+    });
+
+    // get selected category
+    app.get('/category/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query={_id:ObjectId(id)};
+      const result=await categoryCollection.findOne(query);
+      res.send(result);
+    });
+
+    // post category
+    app.post('/category',async(req,res)=>{
+      const category=req.body;
+      const result=await categoryCollection.insertOne(category);
+      res.json(result);
+
+    });
+    
+    // delete category
+    app.delete('/category/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query={_id:ObjectId(id)};
+      const result=await categoryCollection.deleteOne(query);
+      res.send(result);
+    });
 
 
 

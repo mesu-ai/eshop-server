@@ -155,6 +155,23 @@ async function run() {
 
       });
 
+      // post flashsell
+      app.post('/flashsell',async(req,res)=>{
+        const cursor=req.body;
+        const result=await flashsellCollection.insertOne(cursor);
+        res.json(result);
+
+      });
+
+      // delete sell product
+
+      app.delete('/flashsell/:id',async(req,res)=>{
+        const id=req.params.id;
+        const query={_id:ObjectId(id)};
+        const result=await flashsellCollection.deleteOne(query);
+        res.json(result);
+      })
+
       app.post('/flashsellTime',async(req,res)=>{
         const sellTime=req.body;
         const result=await flashsellTime.insertOne(sellTime);

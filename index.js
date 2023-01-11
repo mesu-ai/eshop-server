@@ -23,15 +23,15 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
       
-      // await client.connect();
-      const database = client.db("e-shop");
-      const productCollection = database.collection("products");
-      const flashsellCollection=database.collection("flashsell");
-      const flashsellTime=database.collection("flashsellTime");
-      const orderCollection=database.collection("orders");
-      const usersCollection=database.collection("users");
-      const categoryCollection=database.collection("category");
-      const bannerCollection=database.collection("banner");
+      client.connect();
+      // const database = client.db("e-shop");
+      const productCollection = client.db("e-shop").collection("products");
+      const flashsellCollection=client.db("e-shop").collection("flashsell");
+      const flashsellTime=client.db("e-shop").collection("flashsellTime");
+      const orderCollection=client.db("e-shop").collection("orders");
+      const usersCollection=client.db("e-shop").collection("users");
+      const categoryCollection=client.db("e-shop").collection("category");
+      const bannerCollection=client.db("e-shop").collection("banner");
 
       console.log('connect to db');
 

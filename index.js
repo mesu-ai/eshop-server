@@ -17,10 +17,11 @@ app.use(express.json());
 const { MongoClient } = require('mongodb');
 const { query } = require('express');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.chgli.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri, { useNewUrlParser: true });
 
 
-async function run() {
+function run() {
     try {
       
       client.connect();
@@ -401,7 +402,15 @@ async function run() {
   }
   run().catch(console.dir);
 
-
+  // client.connect(err => {
+  //   if(err) {
+  //     console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
+  //   }
+  //   console.log('Connected...');
+  //   const collection = client.db("test").collection("devices");
+  //   // perform actions on the collection object
+  //   client.close();
+  // });
 
 
 app.get('/',(req,res)=>{
